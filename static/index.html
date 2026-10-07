@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DBF → JSON</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">{ }</span>
+      <span>DBF <span class="arrow">→</span> JSON</span>
+    </div>
+    <span class="tagline">dBase III/IV · FoxPro · Visual FoxPro · fichiers mémo .dbt / .fpt</span>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <label id="dropzone" class="dropzone" for="fileInput">
+        <input id="fileInput" type="file" multiple accept=".dbf,.dbt,.fpt,.DBF,.DBT,.FPT" hidden>
+        <div class="dz-icon">⇪</div>
+        <p class="dz-title">Glissez vos fichiers DBF ici</p>
+        <p class="dz-sub">ou cliquez pour parcourir — ajoutez le .dbt / .fpt du même nom pour les champs mémo</p>
+      </label>
+
+      <details class="options" open>
+        <summary>Options de conversion</summary>
+        <div class="grid">
+          <label class="field">
+            <span>Encodage</span>
+            <select id="encoding">
+              <option value="">Détection automatique</option>
+              <option value="cp1252">Windows-1252 (Europe occidentale)</option>
+              <option value="cp850">CP850 (DOS Europe)</option>
+              <option value="cp437">CP437 (DOS US)</option>
+              <option value="latin-1">ISO-8859-1</option>
+              <option value="utf-8">UTF-8</option>
+              <option value="cp1251">Windows-1251 (Cyrillique)</option>
+              <option value="cp866">CP866 (DOS Cyrillique)</option>
+              <option value="cp1250">Windows-1250 (Europe centrale)</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" id="includeSchema" checked> Inclure le schéma (métadonnées)</label>
+          <label class="check"><input type="checkbox" id="pretty" checked> JSON indenté</label>
+          <label class="check"><input type="checkbox" id="lowercase"> Noms de champs en minuscules</label>
+          <label class="check"><input type="checkbox" id="includeDeleted"> Inclure les enregistrements supprimés</label>
+        </div>
+      </details>
+
+      <div class="list-head">
+        <h2>Fichiers</h2>
+        <div class="actions">
+          <button id="clearBtn" class="btn ghost" disabled>Vider</button>
+          <button id="convertAllBtn" class="btn primary" disabled>Tout convertir</button>
+        </div>
+      </div>
+      <ul id="fileList" class="file-list">
+        <li class="empty">Aucun fichier pour l'instant.</li>
+      </ul>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="list-head">
+        <h2 id="previewTitle">Aperçu</h2>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="table">Tableau</button>
+          <button class="tab" data-tab="schema">Schéma</button>
+          <button class="tab" data-tab="json">JSON</button>
+        </div>
+      </div>
+      <div id="stats" class="stats"></div>
+      <div id="previewBody" class="preview-body">
+        <p class="placeholder">Sélectionnez un fichier pour afficher un aperçu.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
